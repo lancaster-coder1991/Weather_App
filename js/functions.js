@@ -2,7 +2,7 @@ const goBtn = document.getElementById("go");
 
 returnWeather = (city) => {
   return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=London&appid=8bbfb4c5fe492461d4fe061e82d3dff6`
+    `https://api.openweathermap.org/data/2.5/weather?q=London&appid=8bbfb4c5fe492461d4fe061e82d3dff6&units=metric`
   )
     .then((response) => {
       if (response.status !== 200) {
@@ -14,6 +14,7 @@ returnWeather = (city) => {
       }
     })
     .then((data) => {
+      console.log(data);
       return data.main;
     })
     .catch((err) => {
@@ -22,12 +23,13 @@ returnWeather = (city) => {
 };
 
 goBtn.addEventListener("click", () => {
-  const city = document.getElementById("city").text;
+  const city = document.getElementById("city").value;
+  console.log(city);
   returnWeather(city).then((mainData) => {
-    const resultDiv = document.getElementById("Result");
-    resultDiv.text = mainData;
-    console.log(mainData);
+    const resultSpans = document.getElementsByTagName("span");
+    console.log(resultSpans[0].id);
+    // resultDiv.innerHTML = JSON.stringify(mainData);
   });
 });
 
-module.exports = returnWeather;
+// module.exports = returnWeather;
