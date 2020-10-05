@@ -1,0 +1,35 @@
+body {
+  text-align: center;
+  font-size: 3vh;
+  height: 100vh;
+  vertical-align: middle;
+  margin: 0px;
+}
+
+#content_container {
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+input {
+  font-size: 2vh;
+  margin-bottom: 5%;
+}
+
+button {
+  font-size: 2vh;
+}
+
+#weatherFlex {
+  display: flex;
+}
+
+#weatherFlex > div {
+  margin: auto;
+}
+
+/* body > * {
+  margin: auto;
+} */
