@@ -1,4 +1,4 @@
-const goBtn = document.getElementById("go");
+const currentGoBtn = document.getElementById("currentGo");
 const errorMsg = document.getElementById("errorMsg");
 
 returnWeather = (city) => {
@@ -20,16 +20,22 @@ returnWeather = (city) => {
     });
 };
 
-goBtn.addEventListener("click", () => {
+currentGoBtn.addEventListener("click", () => {
   const city = document.getElementById("city").value;
   returnWeather(city).then((data) => {
     if (data === 404) {
       errorMsg.innerHTML = "Error - City not found";
     } else {
+      //Clear error message if it exists
       errorMsg.innerHTML = "";
+
+      //Set title of results
+      const currentWeatherCity = document.querySelector("#currentWeatherCity");
+      currentWeatherCity.innerHTML = city;
+
       //Create array of result fields
       const resultSpans = Array.from(
-        document.getElementsByClassName("resultSpan")
+        document.querySelectorAll("#currentWeatherContainer .resultSpan")
       );
 
       //Reformat the description to be Title Case

@@ -1,9 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+
 body {
   text-align: center;
   font-size: 3vh;
   height: 100vh;
   vertical-align: middle;
   margin: 0px;
+  font-family: "Indie Flower", cursive;
 }
 
 #Clouds {
@@ -289,7 +292,7 @@ body {
     circle,
     #f9a72b 0%,
     #fa9026 70%,
-    #fb6c1f 100%
+    #fa9026 70%
   );
 }
 
@@ -298,11 +301,16 @@ body {
   top: 50%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+  width: 100%;
 }
 
 input {
-  font-size: 2vh;
+  font-size: 3vh;
   margin-bottom: 5%;
+  border-radius: 10px;
+  font-family: "Indie Flower", cursive;
+  padding: 0.5%;
+  margin-right: 1%;
 }
 
 button {
