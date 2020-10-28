@@ -32,7 +32,7 @@
       </defs>
     </svg>
     <div id="content_container">
-      <input type="text" id="city" /><span id="errorMsg"></span></br>
+      <input type="text" id="city" value="Lancaster"/><span id="errorMsg"></span></br>
       <div id="weatherFlex">
         <div id="currentWeatherContainer" class="weatherContainer">
           <div id="Result"><b>Hit this button for the current weather</b></div></br>
@@ -47,14 +47,18 @@
         </div>
         <div id="todayWeatherContainer" class="weatherContainer">
           <div id="Result"><b>Hit this button for today's forecast</b></div></br>
-          <button id="go">Go!</button></br>
+          <button id="todayGo">Go!</button></br>
           <span>Today's forecast in: </span><span id="todayWeatherCity"></span></br>
-          <span class="resultSpan" id="Description">Description: </span></br>
+          <div id="todayWeatherFlex">
+
+            
+          </div>
+          <!-- <span class="resultSpan" id="Description">Description: </span></br>
           <span class="resultSpan" id="Temperature">Temperature: </span></br>
           <span class="resultSpan" id="FeelsLike">Feels Like: </span></br>
           <span class="resultSpan" id="Cloudiness">Cloudiness: </span></br>
           <span class="resultSpan" id="WindSpeed">Wind Speed: </span></br>
-          <span class="resultSpan" id="Humidity"></span></br>
+          <span class="resultSpan" id="Humidity"></span></br> -->
         </div>
         <div id="weekWeatherContainer" class="weatherContainer">
           <div id="Result"><b>Hit this button for this week's forecast</b></div></br>
@@ -69,6 +73,6 @@
         </div>
       </div>
     </div>
-    <script src="js/functions.js" type="text/javascript"></script>
+    <script src="js/functions.js" type="module"></script>
   </body>
 </html>

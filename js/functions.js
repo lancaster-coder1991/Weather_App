@@ -1,7 +1,8 @@
 const currentGoBtn = document.getElementById("currentGo");
+const todayGoBtn = document.getElementById("todayGo");
 const errorMsg = document.getElementById("errorMsg");
 
-returnWeather = (city) => {
+const returnCurrentWeather = (city) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${city},,GB&appid=8bbfb4c5fe492461d4fe061e82d3dff6&units=metric`
   )
@@ -20,9 +21,36 @@ returnWeather = (city) => {
     });
 };
 
+const getCoords = (city) => {
+  return fetch(`https://geocode.xyz/${city} UK?json=1`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((location) => {
+      const coords = {
+        lat: location.latt,
+        lng: location.longt,
+      };
+      return coords;
+    });
+};
+
+const getTodaysForecast = (coords) => {
+  return fetch(
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lng}&exclude=current,minutely,daily,alerts&appid=8bbfb4c5fe492461d4fe061e82d3dff6&units=metric`
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((forecast) => {
+      console.log(forecast);
+      return forecast;
+    });
+};
+
 currentGoBtn.addEventListener("click", () => {
   const city = document.getElementById("city").value;
-  returnWeather(city).then((data) => {
+  returnCurrentWeather(city).then((data) => {
     if (data === 404) {
       errorMsg.innerHTML = "Error - City not found";
     } else {
@@ -96,4 +124,30 @@ currentGoBtn.addEventListener("click", () => {
   });
 });
 
-// module.exports = returnWeather;
+todayGoBtn.addEventListener("click", () => {
+  const city = document.getElementById("city").value;
+
+  //Set today's weather forecast city
+  const currentWeatherCity = document.querySelector("#todayWeatherCity");
+  currentWeatherCity.innerHTML = city;
+
+  getCoords(city).then((coords) => {
+    console.log(coords);
+    getTodaysForecast(coords).then((forecast) => {
+      const todayForecastFlex = document.getElementById("todayWeatherFlex");
+      todayForecastFlex.innerHTML = "";
+      const hoursLeft = 24 - new Date().getHours();
+      let counter = 0;
+      for (let i = hoursLeft; i > 0; i--) {
+        const newdiv = document.createElement("div");
+        newdiv.innerHTML = `${24 - i}.00: ${
+          forecast.hourly[counter].temp
+        }${String.fromCharCode(176)}C, ${
+          forecast.hourly[counter].weather[0].description
+        }`;
+        todayForecastFlex.appendChild(newdiv);
+        counter++;
+      }
+    });
+  });
+});
