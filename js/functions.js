@@ -147,7 +147,6 @@ todayGoBtn.addEventListener("click", () => {
 
   getCoords(city)
     .then((coords) => {
-      console.log(coords);
       return getTodaysForecast(coords);
     })
     .then((forecast) => {
@@ -157,9 +156,9 @@ todayGoBtn.addEventListener("click", () => {
       let counter = 0;
       for (let i = hoursLeft; i > 0; i--) {
         const newdiv = document.createElement("div");
-        newdiv.innerHTML = `${24 - i}.00: ${
-          forecast.hourly[counter].temp
-        }${String.fromCharCode(176)}C, ${
+        newdiv.innerHTML = `${24 - i}.00: ${forecast.hourly[
+          counter
+        ].temp.toFixed(1)}${String.fromCharCode(176)}C, ${
           forecast.hourly[counter].weather[0].description
         }`;
         todayForecastFlex.appendChild(newdiv);
@@ -176,7 +175,6 @@ weekGoBtn.addEventListener("click", () => {
 
   getCoords(city)
     .then((coords) => {
-      console.log(coords);
       return getWeekForecast(coords);
     })
     .then((forecast) => {
@@ -185,11 +183,13 @@ weekGoBtn.addEventListener("click", () => {
 
       forecast.daily.forEach((day) => {
         const newdiv = document.createElement("div");
-        newdiv.innerHTML = `${new Date(day.dt * 1000).toLocaleDateString()}: ${
-          day.temp.min
-        }${String.fromCharCode(176)}C-${day.temp.max}${String.fromCharCode(
-          176
-        )}C`;
+        newdiv.innerHTML = `${new Date(
+          day.dt * 1000
+        ).toLocaleDateString()}: ${day.temp.min.toFixed(
+          1
+        )}${String.fromCharCode(176)}C - ${day.temp.max.toFixed(
+          1
+        )}${String.fromCharCode(176)}C, ${day.weather[0].description}`;
         weekForecastFlex.appendChild(newdiv);
       });
     });
