@@ -28,11 +28,17 @@ const getCoords = (city) => {
       return response.json();
     })
     .then((location) => {
+      console.log(location);
       const coords = {
         lat: location.latt,
         lng: location.longt,
       };
-      return coords;
+      errorMsg.innerHTML = "";
+      if (location.error) return errorHandler(location.error);
+      else return coords;
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 
@@ -62,11 +68,19 @@ const getWeekForecast = (coords) => {
     });
 };
 
+const errorHandler = (err) => {
+  if (err.description === "Your request produced no suggestions.")
+    errorMsg.innerHTML = "City not found - try amending your search!";
+  if (err.message.includes("Request Throttled"))
+    errorMsg.innerHTML =
+      "The Geocoding API needs a sec to catch up - try again in a few seconds!";
+};
+
 currentGoBtn.addEventListener("click", () => {
   const city = document.getElementById("city").value;
   returnCurrentWeather(city).then((data) => {
     if (data === 404) {
-      errorMsg.innerHTML = "Error - City not found";
+      errorMsg.innerHTML = "City not found - try amending your search!";
     } else {
       //Clear error message if it exists
       errorMsg.innerHTML = "";
@@ -175,6 +189,7 @@ weekGoBtn.addEventListener("click", () => {
 
   getCoords(city)
     .then((coords) => {
+      console.log(coords);
       return getWeekForecast(coords);
     })
     .then((forecast) => {

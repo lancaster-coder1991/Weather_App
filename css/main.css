@@ -306,7 +306,7 @@ body {
 
 input {
   font-size: 3vh;
-  margin-bottom: 5%;
+  margin-bottom: 1%;
   border-radius: 10px;
   font-family: "Indie Flower", cursive;
   padding: 0.5%;
@@ -315,6 +315,11 @@ input {
 
 button {
   font-size: 2vh;
+}
+
+#errorMsg {
+  display: block;
+  margin-bottom: 1%;
 }
 
 #weatherFlex {
