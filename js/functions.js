@@ -1,5 +1,6 @@
 const currentGoBtn = document.getElementById("currentGo");
 const todayGoBtn = document.getElementById("todayGo");
+const weekGoBtn = document.getElementById("weekGo");
 const errorMsg = document.getElementById("errorMsg");
 
 const returnCurrentWeather = (city) => {
@@ -38,6 +39,19 @@ const getCoords = (city) => {
 const getTodaysForecast = (coords) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lng}&exclude=current,minutely,daily,alerts&appid=8bbfb4c5fe492461d4fe061e82d3dff6&units=metric`
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((forecast) => {
+      console.log(forecast);
+      return forecast;
+    });
+};
+
+const getWeekForecast = (coords) => {
+  return fetch(
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lng}&exclude=current,minutely,hourly,alerts&appid=8bbfb4c5fe492461d4fe061e82d3dff6&units=metric`
   )
     .then((response) => {
       return response.json();
@@ -131,9 +145,12 @@ todayGoBtn.addEventListener("click", () => {
   const currentWeatherCity = document.querySelector("#todayWeatherCity");
   currentWeatherCity.innerHTML = city;
 
-  getCoords(city).then((coords) => {
-    console.log(coords);
-    getTodaysForecast(coords).then((forecast) => {
+  getCoords(city)
+    .then((coords) => {
+      console.log(coords);
+      return getTodaysForecast(coords);
+    })
+    .then((forecast) => {
       const todayForecastFlex = document.getElementById("todayWeatherFlex");
       todayForecastFlex.innerHTML = "";
       const hoursLeft = 24 - new Date().getHours();
@@ -149,5 +166,31 @@ todayGoBtn.addEventListener("click", () => {
         counter++;
       }
     });
-  });
+});
+
+weekGoBtn.addEventListener("click", () => {
+  const city = document.getElementById("city").value;
+
+  const weekWeatherCity = document.querySelector("#weekWeatherCity");
+  weekWeatherCity.innerHTML = city;
+
+  getCoords(city)
+    .then((coords) => {
+      console.log(coords);
+      return getWeekForecast(coords);
+    })
+    .then((forecast) => {
+      const weekForecastFlex = document.getElementById("weekWeatherFlex");
+      weekForecastFlex.innerHTML = "";
+
+      forecast.daily.forEach((day) => {
+        const newdiv = document.createElement("div");
+        newdiv.innerHTML = `${new Date(day.dt * 1000).toLocaleDateString()}: ${
+          day.temp.min
+        }${String.fromCharCode(176)}C-${day.temp.max}${String.fromCharCode(
+          176
+        )}C`;
+        weekForecastFlex.appendChild(newdiv);
+      });
+    });
 });
